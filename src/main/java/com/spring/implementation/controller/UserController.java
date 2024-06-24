@@ -1,5 +1,6 @@
 package com.spring.implementation.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,17 +47,21 @@ public class UserController {
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@GetMapping("/register")
-	public String showRegistrationForm() {
+	public String showRegistrationForm(Model model) {
+
+		model.addAttribute("user", new UserDTO());
 		return "registration";
 	}
 
 	@PostMapping("/register")
-	public String saveUser(@ModelAttribute UserDTO userDTO) {
-		User user = userDetailsService.save(userDTO);
-		if (user != null)
-			return "redirect:/login";
-		else
-			return "redirect:/register";
+	public String saveUser(@Valid @ModelAttribute ("user") UserDTO userDTO, BindingResult result) {
+
+		if (result.hasErrors()) {
+			System.out.println("erros meu");
+			return "registration";
+		}
+		userDetailsService.save(userDTO);
+		return "redirect:/login";
 	}
 
 	@GetMapping("/login")
@@ -100,7 +106,7 @@ public class UserController {
 			model.addAttribute("error", e.getMessage());
 		}
 
-		return "redirect:/forgot-password";
+		return "redirect:/login";
 		
 	}
 
@@ -115,12 +121,12 @@ public class UserController {
 
 		String subject = "Aquí está el link para restablecer su contraseña";
 
-		String content = "<p>Hello,</p>"
-				+ "<p>Ha solicitado restablecer su contraseña..</p>"
-				+ "<p>Haga clic en el siguiente enlace para cambiar su contraseña::</p>"
-				+ "<p><a href=\"" + link + "\">Cambiar mi contraseña/a></p>"
+		String content = "<p>Hola </p>"
+				+ "<p>Ha solicitado restablecer su contraseña.</p>"
+				+ "<p>Haga clic en el siguiente link para cambiar su contraseña:</p>"
+				+ "<p><a href=\"" + link + "\">Cambiar mi contraseña</a></p>"
 				+ "<br>"
-				+ "<p>Gracias</p>";
+				+ "<p>Enos Suport - No responda este correo</p>";
 
 		helper.setSubject(subject);
 		helper.setText(content, true);

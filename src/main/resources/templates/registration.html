@@ -1,7 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Usuario</title>
+    <meta charset="ISO-8859-1">
+    <title>Reset Password App</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,57 +65,36 @@
             cursor: pointer;
         }
         
-        .btn-submit:hover {
-            background-color: #45a049;
-        }
-        
-        #roles {
-            width: 200px;
-            height: 30px;
-            font-size: 16px;
-        }
-        
     </style>
-    <script>
-        function checkPassword(event) {
-            var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirm-password").value;
-            var errorElement = document.getElementById("passwordError");
-
-            if (password !== confirmPassword) {
-                errorElement.textContent = "Passwords do not match";
-                event.preventDefault(); // Prevent form submission by default
-            }else{
-            	errorElement.textContent = "";
-            } 
-        }
-    </script>
 </head>
 <body>
     <div class="container">
         <h2>Registro de usuario</h2>
-        <form action="/register" method="post">
+        <form action="#" th:action="@{/register}" th:object="${user}" method="POST">
             <div class="form-group">
-                <label for="name">Nombre</label>
-                <input type="text" id="name" name="name" required>
+                <label for="name">Name</label>
+                <input class="form-control" type="text" th:field="*{name}"  id="name" placeholder="name">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
+
             <div class="form-group">
-                <label for="name">Apellido</label>
-                <input type="text" id="apellido" name="apellido" required>
+                <label for="apellido">Apellido</label>
+                <input class="form-control" type="text" th:field="*{apellido}"  id="apellido" placeholder="name">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
             </div>
+
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input class="form-control" type="text" th:field="*{email}"  id="email" placeholder="email">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
+
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input class="form-control" type="password" th:field="*{password}"  id="password" placeholder="password">
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" required onblur="checkPassword(event)">
-                <span id="passwordError" style="color: red;"></span>
-            </div>
+
             <button type="submit" class="btn-submit" onclick="checkPassword(event)">Register</button>
             <span>Ya registrado? <a href="/"
                   th:href="@{/login}">Clic aquí para ingresar</a></span>
