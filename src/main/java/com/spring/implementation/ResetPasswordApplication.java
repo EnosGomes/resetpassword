@@ -16,10 +16,4 @@ public class ResetPasswordApplication {
 		 SpringApplication.run(ResetPasswordApplication.class, args);
 		
 	}
-
-	@GetMapping("/")
-	public String home() {
-		return "home";
-	}
-
 }

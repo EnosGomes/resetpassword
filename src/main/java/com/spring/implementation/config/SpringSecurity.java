@@ -1,6 +1,7 @@
 package com.spring.implementation.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -60,9 +61,15 @@ public class SpringSecurity {
 					.exceptionHandling()
 					.and()
 					.authorizeRequests()
+
 					.requestMatchers("register","forgotPassword","resetPassword/**", "resetPassword").permitAll()
-					.anyRequest().permitAll()
+
+						.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+
+//						.requestMatchers("/h2-console/**").permitAll()
+//						.and().headers().frameOptions().sameOrigin()
 					.and()
+
 					.formLogin()
 					.loginPage("/login").defaultSuccessUrl("/dashboard")
 					.permitAll()
