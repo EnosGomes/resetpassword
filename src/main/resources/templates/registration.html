@@ -72,26 +72,26 @@
         <h2>Registro de usuario</h2>
         <form action="#" th:action="@{/register}" th:object="${user}" method="POST">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input class="form-control" type="text" th:field="*{name}"  id="name" placeholder="name">
+                <label for="name">Nombre</label>
+                <input class="form-control" type="text" th:field="*{name}"  id="name" placeholder="Nomblre">
                 <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             </div>
 
             <div class="form-group">
                 <label for="apellido">Apellido</label>
-                <input class="form-control" type="text" th:field="*{apellido}"  id="apellido" placeholder="name">
+                <input class="form-control" type="text" th:field="*{apellido}"  id="apellido" placeholder="Apellido">
                 <div class="alert alert-warning" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input class="form-control" type="text" th:field="*{email}"  id="email" placeholder="email">
+                <input class="form-control" type="text" th:field="*{email}"  id="email" placeholder="Email">
                 <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input class="form-control" type="password" th:field="*{password}"  id="password" placeholder="password">
+                <input class="form-control" type="password" th:field="*{password}"  id="password" placeholder="Password">
                 <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
 
